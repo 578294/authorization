@@ -1,12 +1,14 @@
 # Авторизация. Регистрация.
 import os
-def create_file_users(): #Создаем файл для записи пользователя
-    if not os.path.exists('users.txt'): #Проверяем наличие файла
+
+
+def create_file_users():  # Создаем файл для записи пользователя
+    if not os.path.exists('users.txt'):  # Проверяем наличие файла
         with open('users.txt', 'w'):
             pass
-def add_user(login: str, password: str): #Добавляем пользователя
-    #login = str
-    #password = str
+
+
+def add_user(login: str, password: str):  # Добавляем пользователя
 
     with open('users.txt', 'r') as f:
         u = f.read().splitlines()
@@ -14,80 +16,143 @@ def add_user(login: str, password: str): #Добавляем пользоват�
     for i in u:
         a = i.split('/')
         if login == a[0]:
-            return 0
+            return False
 
     with open('users.txt', 'a') as f:
         f.write(f'{login}/{password}\n')
-    return 1
+    return True
 
-def check_user(login: str, password: str): #Проверяем пользователей в файле
-    #login = str
-    #password = str
+
+def check_user(login: str, password: str):  # Проверяем пользователей в файле
+
     with open('users.txt', 'r') as f:
         u = f.read().splitlines()
 
     for i in u:
         a = i.split('/')
-        if login == a[0] and password == a[1]: #выполняем проверку на наличие пользователя
-            return 1
-    return 0
+        if login == a[0] and password == a[1]:  # выполняем проверку на наличие пользователя
+            return True
+    return False
 
-def authorization_and_registration(login):
 
-    print('Приветствую, Username! Это проверочная работа по авторизации и регистрации')
-
-create_file_users()
-
-while True:
+def greet():  # Приветствие
     print('Приветствую, Username! Это проверочная работа по авторизации и регистрации')
     print('Выберите меню:',
           '1.Авторизация',
           '2.Регистрация',
           '3.Выход')
+    username_choise = input()
+    create_file_users()
+    authorization(username_choise)
+    registration(username_choise)
+    exit(username_choise)
+    return username_choise
 
-    usename_choise = input()
-    if usename_choise == '1':
-        login = str(input('Введите логин '))
-        password = str(input('Введите пароль '))
 
-        login_pswd = check_user(login, password)
+def authorization(username_choise: str):  # Авторизация
+    if username_choise == '1':
+        login = input('Введите логин ')
+        password = input('Введите пароль ')
 
-        if login_pswd:
+        login_password = check_user(login, password)
+
+        if login_password:
             print('Вы авторизовались ')
         else:
             print('Неверный логин или пароль ')
 
-    elif usename_choise == '2':
+
+def registration(username_choise: str):  # Регистрация
+    if username_choise == '2':
         login = str(input('Введите логин '))
         if len(login) < 3 or len(login) > 20:
             print('Логин не может быть короче 3 и длиннее 20 символов')
             print('Попробуйте снова!')
-            continue
+            greet()
+
         password = str(input('Введите пароль '))
         if len(password) < 4 or len(password) > 32:
             print('Пароль не может быть короче 4 и длиннее 20 символов')
             print('Попробуйте снова!')
-            continue
+            greet()
+
         password_repeat = str(input('Повторите пароль '))
 
         if password != password_repeat:
             print('Пароли не совпадают!')
-            continue
+
         print('Попробуйте снова!')
+        greet()
 
-        login_pswd = add_user(login, password)
+        login_password = add_user(login, password)
 
-        if not login_pswd:
+        if not login_password:
             print('Данный логин уже существует!')
         else:
             print('Регистрация прошла успешно!')
 
-    elif usename_choise == '3':
+
+def exit(username_choise: str):  # Выход
+    if username_choise == '3':
         print('Завершение работы')
-        break
+        quit()
+        # return True
 
 
+def main():
+    while True:
+        greet()
 
 
-
-
+if __name__ == "__main__":
+    main()
+#
+# create_file_users()
+#
+# while True:
+#     print('Приветствую, Username! Это проверочная работа по авторизации и регистрации')
+#     print('Выберите меню:',
+#           '1.Авторизация',
+#           '2.Регистрация',
+#           '3.Выход')
+#
+#     usename_choise = input()
+#     if usename_choise == '1':
+#         login = input('Введите логин ')
+#         password = input('Введите пароль ')
+#
+#         login_pswd = check_user(login, password)
+#
+#         if login_pswd:
+#             print('Вы авторизовались ')
+#         else:
+#             print('Неверный логин или пароль ')
+#
+#     elif usename_choise == '2':
+#         login = str(input('Введите логин '))
+#         if len(login) < 3 or len(login) > 20:
+#             print('Логин не может быть короче 3 и длиннее 20 символов')
+#             print('Попробуйте снова!')
+#             continue
+#         password = str(input('Введите пароль '))
+#         if len(password) < 4 or len(password) > 32:
+#             print('Пароль не может быть короче 4 и длиннее 20 символов')
+#             print('Попробуйте снова!')
+#             continue
+#         password_repeat = str(input('Повторите пароль '))
+#
+#         if password != password_repeat:
+#             print('Пароли не совпадают!')
+#             continue
+#         print('Попробуйте снова!')
+#
+#         login_pswd = add_user(login, password)
+#
+#         if not login_pswd:
+#             print('Данный логин уже существует!')
+#         else:
+#             print('Регистрация прошла успешно!')
+#
+#     elif usename_choise == '3':
+#         print('Завершение работы')
+#         break
