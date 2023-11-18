@@ -11,9 +11,9 @@ def create_file_users():  # Создаем файл для записи поль
 def add_user(login: str, password: str):  # Добавляем пользователя
 
     with open('users.txt', 'r') as f:
-        u = f.read().splitlines()
+        users = f.read().splitlines()
 
-    for i in u:
+    for i in users:
         a = i.split('/')
         if login == a[0]:
             return False
@@ -26,9 +26,9 @@ def add_user(login: str, password: str):  # Добавляем пользова�
 def check_user(login: str, password: str):  # Проверяем пользователей в файле
 
     with open('users.txt', 'r') as f:
-        u = f.read().splitlines()
+        users = f.read().splitlines()
 
-    for i in u:
+    for i in users:
         a = i.split('/')
         if login == a[0] and password == a[1]:  # выполняем проверку на наличие пользователя
             return True
