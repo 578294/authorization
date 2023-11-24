@@ -9,7 +9,6 @@ def create_file_users():  # Создаем файл для записи поль
 
 
 def add_user(login: str, password: str):  # Добавляем пользователя
-
     with open('users.txt', 'r') as f:
         users = f.read().splitlines()
 
@@ -24,7 +23,6 @@ def add_user(login: str, password: str):  # Добавляем пользова�
 
 
 def check_user(login: str, password: str):  # Проверяем пользователей в файле
-
     with open('users.txt', 'r') as f:
         users = f.read().splitlines()
 
@@ -43,60 +41,60 @@ def greet():  # Приветствие
           '3.Выход')
     username_choise = input()
     create_file_users()
-    authorization(username_choise)
-    registration(username_choise)
-    exit(username_choise)
+    if username_choise == '1':
+        authorization()
+    elif username_choise == '2':
+        registration()
+    elif username_choise == '3':
+        exit()
     return username_choise
 
 
-def authorization(username_choise: str):  # Авторизация
-    if username_choise == '1':
-        login = input('Введите логин ')
-        password = input('Введите пароль ')
+def authorization():  # Авторизация
+    login = input('Введите логин ')
+    password = input('Введите пароль ')
 
-        login_password = check_user(login, password)
+    login_password = check_user(login, password)
 
-        if login_password:
-            print('Вы авторизовались ')
-        else:
-            print('Неверный логин или пароль ')
+    if login_password:
+        print('Вы авторизовались ')
+    else:
+        print('Неверный логин или пароль ')
 
 
-def registration(username_choise: str):  # Регистрация
-    if username_choise == '2':
-        login = str(input('Введите логин '))
-        if len(login) < 3 or len(login) > 20:
-            print('Логин не может быть короче 3 и длиннее 20 символов')
-            print('Попробуйте снова!')
-            greet()
-
-        password = str(input('Введите пароль '))
-        if len(password) < 4 or len(password) > 32:
-            print('Пароль не может быть короче 4 и длиннее 20 символов')
-            print('Попробуйте снова!')
-            greet()
-
-        password_repeat = str(input('Повторите пароль '))
-
-        if password != password_repeat:
-            print('Пароли не совпадают!')
-
+def registration():  # Регистрация
+    login = input('Введите логин ')
+    if len(login) not in range(3, 21):
+        print('Логин не может быть короче 3 и длиннее 20 символов')
         print('Попробуйте снова!')
         greet()
 
-        login_password = add_user(login, password)
+    password = input('Введите пароль ')
+    if len(password) not in range(4, 33):
+        print('Пароль не может быть короче 4 и длиннее 20 символов')
+        print('Попробуйте снова!')
+        greet()
 
-        if not login_password:
-            print('Данный логин уже существует!')
-        else:
-            print('Регистрация прошла успешно!')
+    password_repeat = input('Повторите пароль ')
+
+    login_password = add_user(login, password)
+    if login_password:
+        print('Вы зарегистрировались!')
+
+    if password != password_repeat:
+        print('Пароли не совпадают!')
+        print('Попробуйте снова!')
+    greet()
+
+    if not login_password:
+        print('Данный логин уже существует!')
+    else:
+        print('Регистрация прошла успешно!')
 
 
-def exit(username_choise: str):  # Выход
-    if username_choise == '3':
-        print('Завершение работы')
-        quit()
-        # return True
+def exit():  # Выход
+    print('Завершение работы')
+    quit()
 
 
 def main():
