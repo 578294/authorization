@@ -1,5 +1,4 @@
 # Авторизация. Регистрация.
-#Проверка GitHub Actions
 import os
 
 
